@@ -3,13 +3,11 @@ import router from './api';
 
 const server = express();
 
-// allow routes to parse JSON from the request
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 
-// specify prefix for the routes implemented in controllers.ts
 server.use('/', router);
 
 server.listen(3000, () => {
-  console.log('Server started on port 3000');
+  console.log('Server started on port 3000!');
 });

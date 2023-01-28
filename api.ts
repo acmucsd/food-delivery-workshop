@@ -27,8 +27,8 @@ const userOne: User = {
 }
 users.set(userOne.id, userOne);
 
-console.log(drivers);
-console.log(users);
+// console.log(drivers);
+// console.log(users);
 
 // GET all existing orders
 router.get('/orders', (req, res) => {
