@@ -4,6 +4,7 @@ export type Order = {
     restaurant: string;
     quantity: number;
     instructions: string;
+    cost: number;
     owner: User;
 }
 
@@ -12,6 +13,7 @@ export type User = {
     username: string;
     name: string;
     card: string;
+    balance: number;
 }
 
 export type Driver = {
@@ -19,5 +21,4 @@ export type Driver = {
     username: string;
     name: string;
     car: string;
-    orders: number;
 }

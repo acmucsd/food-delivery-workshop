@@ -1,3 +1,4 @@
+// import e from 'express';
 import express from 'express';
 import * as uuid from 'uuid';
 import { Order, User, Driver } from './types';
@@ -9,20 +10,25 @@ const orders = new Map<string, Order>();
 const drivers = new Map<string, Driver>();
 
 // Manually add a driver and user
-const driver = {
+const driverOne: Driver = {
   id: '3a9bf929-824a-4864-9c45-effb2bc49d2d',
   username: 'awesomeDriver',
   name: 'Nikhil Dange',
   car: 'Toyota Camry',
-  orders: 41,
 }
+drivers.set(driverOne.id, driverOne);
 
-const user = {
+const userOne: User = {
     id: 'e1414613-f671-4ad1-85d7-fb5227f856eb',
-    username: 'lebronjames93458325',
+    username: 'lebronjames123',
     name: 'Lebron James',
     card: 'Discover Student',
+    balance: 100,
 }
+users.set(userOne.id, userOne);
+
+console.log(drivers);
+console.log(users);
 
 // GET all existing orders
 router.get('/orders', (req, res) => {
@@ -44,16 +50,37 @@ router.get('/order/:id', (req, res) => {
     }
 });
 
+// POST a new order
 router.post('/order', (req, res) => {
   // TODO
+
+  const order: Order = req.body.order;
+
+  // Check if the user has enough balance
+  const userBalance = order.owner.balance;
+  if (!userBalance || userBalance < order.cost) {
+    return res.status(400).json({ error: 'User balance is too low! '});
+  }
+
+  const id = uuid.v4();
+  order.id = id;
+  orders.set(id, order);
+  return res.status(200).json({ success: true });
 });
 
 router.post('/order/:id/accept', (req, res) => {  
   // Not sure about this one
+  // Idea is for driver to 'accept' an order -- should it be POST or PATCH?
 });
 
 router.post('/user', (req, res) => {
   // TODO
+  const user: User = req.body.user;
+  const id = uuid.v4();
+  user.id = id;
+  users.set(id, user);
+  return res.status(200).json({ success: true });
 });
+
 
 export default router;
