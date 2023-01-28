@@ -65,12 +65,14 @@ router.post('/order', (req, res) => {
   const id = uuid.v4();
   order.id = id;
   orders.set(id, order);
+  order.owner.balance -= order.cost;
   return res.status(200).json({ success: true });
 });
 
 router.post('/order/:id/accept', (req, res) => {  
   // Not sure about this one
   // Idea is for driver to 'accept' an order -- should it be POST or PATCH?
+  // I could include a status field for orders to update?
 });
 
 router.post('/user', (req, res) => {
