@@ -5,7 +5,8 @@ export type Order = {
     quantity: number;
     instructions: string;
     cost: number;
-    owner: User;
+    owner: string;
+    status: string; // Placed, Accepted, Declined, Delivered
 }
 
 export type User = {
