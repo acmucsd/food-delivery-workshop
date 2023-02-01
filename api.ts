@@ -67,29 +67,13 @@ router.post('/order', (req, res) => {
   const order: Order = req.body.order;
 
   // 1. Obtain the user's balance
-  const userId = order.owner;
-  const user = users.get(userId);
-  if (!user) {
-    return res.status(404).json({ error: 'Invalid user!' });
-  }
-  const userBalance = user.balance;
 
   // 2. Validate if the balance is too low
-  if (userBalance < order.cost) {
-    return res.status(400).json({ error: 'User balance is too low!' });
-  }
 
   // 3. Create a uuid for the order, and set the order as placed
-  const id = uuid.v4();
-  order.id = id;
-
-  order.status = 'Placed';
 
   // 4. Update user balance and database
-  user.balance -= order.cost;
-  orders.set(id, order);
-  users.set(userId, user);
-  return res.status(200).json({ success: true });
+
 });
 
 router.post('/order/:id/accept', (req, res) => {  
@@ -97,32 +81,18 @@ router.post('/order/:id/accept', (req, res) => {
 
 
   // 1. Obtain the order from our database
-  const { id } = req.params;
 
-  const order = orders.get(id);
 
   // 2. Check if the order status is valid for acceptance
 
-  const orderStatus = order.status;
-
-  if (orderStatus != 'Placed') {
-    return res.status(400).json({ error: 'This order might have already been cancelled, accepted, or delivered!'});
-  }
 
   // 3. Mark the status as accepted and update the database
-  order.status = 'Accepted';
-  orders.set(id, order);
-  return res.status(200).json({ success: 'Order successfully accepted!'});
+
 });
 
 router.post('/user', (req, res) => {
   // TODO
-  const user: User = req.body.user;
-  const id = uuid.v4();
-  user.id = id;
-  users.set(id, user);
-  console.log(users);
-  return res.status(200).json({ success: true });
+
 });
 
 
